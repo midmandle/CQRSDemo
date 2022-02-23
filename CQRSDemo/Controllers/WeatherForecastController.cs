@@ -1,3 +1,4 @@
+using CQRSDemo.Commands;
 using CQRSDemo.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,5 +24,12 @@ public class WeatherForecastController : ControllerBase
         var query = new GetWeatherForecastQuery();
         return await _mediator.Send(query);
         // return await new GetWeatherForecastHandler().Handle(query, CancellationToken.None);
+    }
+    
+    [HttpPost(Name = "AddWeatherForecast")]
+    public async Task Post(WeatherForecast weatherForecast)
+    {
+        var command = new CreateWeatherForecastCommand(weatherForecast);
+        await _mediator.Send(command);
     }
 }
