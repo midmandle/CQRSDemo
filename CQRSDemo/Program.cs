@@ -1,6 +1,7 @@
 using CQRSDemo.Data;
 using CQRSDemo.Handlers;
 using MediatR;
+using MediatR.Extensions.FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,9 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IWeatherRepository, WeatherRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddMediatR(typeof(GetWeatherForecastHandler));
+var handlersAssembly = typeof(GetWeatherForecastHandler).Assembly;
+builder.Services.AddMediatR(handlersAssembly);
+builder.Services.AddFluentValidation(new[] {handlersAssembly});
 
 var app = builder.Build();
 

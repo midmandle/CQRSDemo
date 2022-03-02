@@ -1,5 +1,6 @@
 using CQRSDemo.Commands;
 using CQRSDemo.Queries;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,9 +28,23 @@ public class WeatherForecastController : ControllerBase
     }
     
     [HttpPost(Name = "AddWeatherForecast")]
-    public async Task Post(WeatherForecast weatherForecast)
+    public async Task<IActionResult> Post(WeatherForecast weatherForecast)
     {
         var command = new CreateWeatherForecastCommand(weatherForecast);
-        await _mediator.Send(command);
+
+        try
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Errors);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, @"Unexpected exception in {Controller}.{MethodName}", nameof(WeatherForecastController), nameof(Post));
+            return StatusCode(500, "Unexpected exception");
+        }
     }
 }
