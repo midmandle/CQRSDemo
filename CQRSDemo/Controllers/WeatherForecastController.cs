@@ -20,9 +20,9 @@ public class WeatherForecastController : ControllerBase
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
-    public async Task<IEnumerable<WeatherForecast>> Get()
+    public async Task<IEnumerable<WeatherForecast>> Get(string Location)
     {
-        var query = new GetWeatherForecastQuery();
+        var query = new GetWeatherForecastQuery(Location);
         return await _mediator.Send(query);
         // return await new GetWeatherForecastHandler().Handle(query, CancellationToken.None);
     }

@@ -3,7 +3,7 @@ using CQRSDemo.Data;
 using MediatR;
 
 namespace CQRSDemo.Handlers;
-
+    
 public class CreateWeatherForecastHandler : IRequestHandler<CreateWeatherForecastCommand>
 {
     private readonly IWeatherRepository _weatherRepository;

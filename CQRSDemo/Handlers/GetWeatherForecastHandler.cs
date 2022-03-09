@@ -16,6 +16,7 @@ public class GetWeatherForecastHandler : IRequestHandler<GetWeatherForecastQuery
 
     public async Task<WeatherForecast[]> Handle(GetWeatherForecastQuery request, CancellationToken cancellationToken)
     {
-        return await _weatherRepository.GetAll();
+        return await _weatherRepository.GetByLocation(request.Location);
     }
+    
 }

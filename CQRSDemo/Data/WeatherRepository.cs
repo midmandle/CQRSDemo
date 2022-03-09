@@ -14,4 +14,9 @@ public class WeatherRepository : IWeatherRepository
         _weatherForecasts.Add(weatherForecast);
         return Task.CompletedTask;
     }
+
+    public Task<WeatherForecast[]> GetByLocation(string location)
+    {
+        return Task.FromResult(_weatherForecasts.Where(x => x.Location == location).ToArray());
+    }
 }
